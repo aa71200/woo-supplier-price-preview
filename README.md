@@ -1,5 +1,7 @@
 # WooCommerce supplier price preview
 
+**What to try.** Run the fixture with the sample CSV to verify exact SKU matching without changing product prices.
+
 [![WordPress and WooCommerce integration checks](https://github.com/aa71200/woo-supplier-price-preview/actions/workflows/checks.yml/badge.svg?branch=main)](https://github.com/aa71200/woo-supplier-price-preview/actions/workflows/checks.yml)
 
 A supplier CSV can contain duplicates, unknown items, and SKUs that differ only by leading zeros. This sample previews price changes and flags the rows that need review before products are updated.
