@@ -28,6 +28,9 @@ try {
         $product->set_sku((string) $sku);
         $product->set_status('publish');
         $product->set_regular_price((string) $price);
+        $product->set_sale_price('95000');
+        $product->set_manage_stock(true);
+        $product->set_stock_quantity(7);
         $products[(string) $sku] = $product->save();
     }
     $profile = Importer::save_profile([
@@ -35,6 +38,22 @@ try {
         'unit' => 'IRR', 'match' => 'sku',
     ])['id'];
     $rows = Input::csv(file_get_contents(dirname(__DIR__) . '/examples/supplier-prices.csv'), ',', 20);
+    $quoted = Input::csv("\xEF\xBB\xBFSKU,Price\r\n\"00,07\",\"112,000\"\r\n", ',', 2);
+    \portfolio_check($quoted[1] === ['SKU', 'Price'] && $quoted[2] === ['00,07', '112,000'], 'UTF-8 BOM and quoted values are preserved');
+    foreach ([
+        'malformed quoted row' => static fn() => Input::csv("SKU,Price\n\"unfinished,8", ',', 20),
+        'unsupported currency' => static fn() => Input::unit('USD'),
+        'fractional toman' => static fn() => Input::price('11', 'IRR', 'IRT'),
+        'row limit' => static fn() => Input::csv("SKU,Price\nA,1\nB,2\n", ',', 1),
+    ] as $label => $invalid) {
+        try {
+            $invalid();
+            throw new \RuntimeException("Expected rejection: $label");
+        } catch (Problem $problem) {
+            \portfolio_check(true, "Rejects $label");
+        }
+    }
+    \portfolio_check(Input::price('112,000', 'IRR', 'IRT') === '11200' && Input::price('11200', 'IRT', 'IRR') === '112000', 'Rial and toman convert exactly in both directions');
     $header = Input::columns($rows);
     $preview = Importer::preview_prices(
         $profile, ['base' => 'IRR', 'unit' => 'IRR'], $rows,
@@ -50,6 +69,10 @@ try {
         && wc_get_product($products['DEMO-DUP'])->get_regular_price('edit') === '300000',
         'Preview leaves every regular product price unchanged'
     );
+    foreach ($products as $product_id) {
+        $product = wc_get_product($product_id);
+        \portfolio_check('95000' === $product->get_sale_price('edit') && 7 === (int) $product->get_stock_quantity('edit'), 'Preview preserves sale price and stock');
+    }
     foreach ($preview as $row) {
         printf("%s | %s | %s → %s IRR\n", $row['code'], $row['state'], $row['before'] ?? '-', $row['after'] ?? '-');
     }

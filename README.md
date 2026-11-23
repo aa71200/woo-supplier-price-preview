@@ -20,7 +20,7 @@ Use disposable single-site WordPress with WooCommerce active and <code>WP_ENVIRO
 
 The fixture populates a test catalogue and uses the same preview records as the plugin. It checks that regular product prices stay unchanged after previewing. Five checks passed with WordPress 7.1.3, WooCommerce 11.1.2, and PHP 8.2.12.
 
-[Recorded integration output](docs/verification.txt) covers exact SKU matching, duplicates and unmatched rows.
+[Recorded integration output](docs/verification.txt) covers the original exact-SKU, duplicate and unmatched-row cases. The current fixture also tests quoted CSV, BOM, rial/toman conversion and rejected input, and verifies regular prices, sale prices and stock remain unchanged. The terminal prints the row results for the committed synthetic CSV.
 
 ## Source and license
 
