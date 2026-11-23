@@ -1,0 +1,13 @@
+name: Portfolio checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  wordpress:
+    uses: aa71200/aa71200/.github/workflows/wordpress-fixture.yml@f11c06e5468a8f8b15a6c6ebe4c60f508d945f61
