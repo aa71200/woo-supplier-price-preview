@@ -1,5 +1,7 @@
 # WooCommerce supplier price preview
 
+[![WordPress and WooCommerce integration checks](https://github.com/aa71200/woo-supplier-price-preview/actions/workflows/checks.yml/badge.svg?branch=main)](https://github.com/aa71200/woo-supplier-price-preview/actions/workflows/checks.yml)
+
 A supplier CSV can contain duplicates, unknown items, and SKUs that differ only by leading zeros. This sample previews price changes and flags the rows that need review before products are updated.
 
 The [CSV parser](src/class-input.php) keeps SKU values as text. The [catalogue lookup](src/class-catalog.php) matches exact SKUs, and the [preview service](src/class-importer.php) shows the current price, proposed price, and row status. [The sample CSV](examples/supplier-prices.csv) uses synthetic products and prices in Iranian rials.
