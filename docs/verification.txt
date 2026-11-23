@@ -1,0 +1,10 @@
+PASS Leading zeros are retained and match distinct WooCommerce products
+PASS Preview records the current and proposed price
+PASS Both duplicate input rows are flagged
+PASS An unmatched SKU is flagged without guessing
+PASS Preview leaves every regular product price unchanged
+0007 | ready | 100000 → 112000 IRR
+7 | ready | 200000 → 210000 IRR
+DEMO-DUP | invalid | 300000 → 305000 IRR
+DEMO-DUP | invalid | 300000 → 308000 IRR
+NO-SUCH-SKU | invalid | - → - IRR

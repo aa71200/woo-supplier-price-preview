@@ -2,11 +2,11 @@
 declare(strict_types=1);
 
 if (!defined('ABSPATH')) {
-    $wp = getenv('CODEXAWP_TEST_WP_LOAD');
-    if (!$wp || !is_file($wp) || basename($wp) !== 'wp-load.php') {
+    $wordpress_loader = getenv('CODEXAWP_TEST_WP_LOAD');
+    if (!$wordpress_loader || !is_file($wordpress_loader) || basename($wordpress_loader) !== 'wp-load.php') {
         throw new RuntimeException('Set CODEXAWP_TEST_WP_LOAD to wp-load.php on a disposable local WordPress installation.');
     }
-    require_once $wp;
+    require_once $wordpress_loader;
 }
 if (PHP_SAPI !== 'cli' || wp_get_environment_type() !== 'local' || is_multisite()) {
     throw new RuntimeException('Run this fixture from the CLI on disposable local single-site WordPress.');

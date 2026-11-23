@@ -10,4 +10,4 @@ permissions:
 
 jobs:
   wordpress:
-    uses: aa71200/aa71200/.github/workflows/wordpress-fixture.yml@f11c06e5468a8f8b15a6c6ebe4c60f508d945f61
+    uses: aa71200/aa71200/.github/workflows/wordpress-fixture.yml@1bcc24ff6ac2cc8c24a760e774c046f0e079aa86
